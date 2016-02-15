@@ -7,7 +7,16 @@ class Customer(models.Model):
     name = models.CharField(max_length=20, blank=False, null=False)
     email = models.EmailField(blank=True, null=True, unique=True)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
-    vehicle_make = models.CharField(max_length=20, blank=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
+    updated = models.DateTimeField(auto_now_add=False, auto_now=True)
+
+    def __unicode__(self):
+        return self.name
+
+
+class Vehicle(models.Model):
+    customer = models.ForeignKey(Customer)
+    vehicle_make = models.CharField(max_length=20)
     vehicle_type = models.CharField(max_length=20, blank=True, null=True)
     vehicle_registration_number = models.CharField(max_length=20, blank=True, null=True)
     vehicle_chasis_number = models.CharField(max_length=20, blank=True, null=True)
@@ -17,7 +26,7 @@ class Customer(models.Model):
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
 
     def __unicode__(self):
-        return self.name
+        return self.vehicle_make
 
 
 class Payment(models.Model):
@@ -34,6 +43,8 @@ class Payment(models.Model):
     amount = models.IntegerField()
     amount_due = models.IntegerField(blank=True, null=True)
     payment_status = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
+    updated = models.DateTimeField(auto_now_add=False, auto_now=True)
 
     def __unicode__(self):
         return self.customer.name + "-->" + str(self.amount)
