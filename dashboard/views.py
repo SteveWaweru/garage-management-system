@@ -3,7 +3,7 @@ from __future__ import print_function
 from django.db import IntegrityError
 from django.shortcuts import render
 from django.contrib import messages
-from .models import Customer
+from .models import Customer, Vehicle
 from .forms import CustomerForm
 
 
@@ -31,3 +31,8 @@ def edit_customer(request, client_id):
         customer.save()
         return render(request, 'dashboard/edit-client.html', {'message': 'success', 'customer': customer})
     return render(request, 'dashboard/edit-client.html', {'customer': customer})
+
+
+def vehicles(request):
+    vehicles = Vehicle.objects.all()
+    return render(request, 'dashboard/vehicles.html', {'vehicles': vehicles})

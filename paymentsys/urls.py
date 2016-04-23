@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^customer/add/', views.add_customer, name='add-customer'),
     url(r'^customer/edit/(?P<client_id>[0-9]+)', views.edit_customer, name='edit-customer'),
+    url(r'^vehicles/', views.vehicles, name='vehicles'),
 ]
