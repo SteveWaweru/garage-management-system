@@ -12,9 +12,9 @@
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 	<meta content="" name="description" />
 	<meta content="" name="author" />
-
+    <link rel="icon" type="image/png" href="{% static 'img/dollar-32.png' %}">
 	<!-- ================== BEGIN BASE CSS STYLE ================== -->
-	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+{#	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">#}
 	<link href="{% static 'plugins/jquery-ui/themes/base/minified/jquery-ui.min.css' %}" rel="stylesheet" />
 	<link href="{% static 'plugins/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" />
 	<link href="{% static 'plugins/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" />
@@ -25,10 +25,8 @@
 	<!-- ================== END BASE CSS STYLE ================== -->
 
 	<!-- ================== BEGIN PAGE LEVEL CSS STYLE ================== -->
-    <link href="{% static 'plugins/jquery-jvectormap/jquery-jvectormap-1.2.2.css' %}" rel="stylesheet" />
-    <link href="{% static 'plugins/bootstrap-calendar/css/bootstrap_calendar.css' %}" rel="stylesheet" />
-    <link href="{% static 'plugins/gritter/css/jquery.gritter.css' %}" rel="stylesheet" />
-    <link href="{% static 'plugins/morris/morris.css' %}" rel="stylesheet" />
+    {% block style %}
+    {% endblock %}
 	<!-- ================== END PAGE LEVEL CSS STYLE ================== -->
 
 	<!-- ================== BEGIN BASE JS ================== -->
@@ -172,19 +170,17 @@
 				<ul class="nav">
 					<li class="nav-header">MENU</li>
 					<li class="has-sub active">
-						<a href="javascript:;">
-						    <b class="caret pull-right"></b>
+						<a href="{% url 'home' %}">
 						    <i class="fa fa-users"></i>
 						    <span>CUSTOMERS</span>
 					    </a>
 						<ul class="sub-menu">
-						    <li><a href="">Register</a></li>
-						    <li><a href="">View Clients</a></li>
+                            <li><a href="{% url 'home' %}">View Clients</a></li>
+						    <li><a href="{% url 'add-customer' %}">Add Client</a></li>
 						</ul>
 					</li>
                     <li class="has-sub active">
-						<a href="javascript:;">
-						    <b class="caret pull-right"></b>
+						<a href="">
 						    <i class="fa fa-dollar"></i>
 						    <span>TRANSACTIONS</span>
 					    </a>
@@ -196,8 +192,7 @@
 						</ul>
 					</li>
                     <li class="has-sub active">
-						<a href="javascript:;">
-						    <b class="caret pull-right"></b>
+						<a href="">
 						    <i class="fa fa-bar-chart"></i>
 						    <span>REPORTS</span>
 					    </a>
@@ -208,8 +203,7 @@
 						</ul>
 					</li>
                     <li class="has-sub active">
-						<a href="javascript:;">
-						    <b class="caret pull-right"></b>
+						<a href="">
 						    <i class="fa fa-dollar"></i>
 						    <span>ACCESS MANAGEMENT</span>
 					    </a>
@@ -249,9 +243,9 @@
 	<script src="{% static 'plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
 	<script src="{% static 'plugins/jquery-cookie/jquery.cookie.js' %}"></script>
 	<!-- ================== END BASE JS ================== -->
-    {% block scripts %}
 
-	<!-- ================== BEGIN PAGE LEVEL JS ================== -->
+    <!-- ================== BEGIN PAGE LEVEL JS ================== -->
+    {% block scripts %}
     <script src="{% static 'plugins/morris/raphael.min.js' %}"></script>
     <script src="{% static 'plugins/morris/morris.js' %}"></script>
     <script src="{% static 'plugins/jquery-jvectormap/jquery-jvectormap-1.2.2.min.js' %}"></script>
@@ -260,7 +254,6 @@
 	<script src="{% static 'plugins/gritter/js/jquery.gritter.js' %}"></script>
 	<script src="{% static 'js/dashboard-v2.min.js' %}"></script>
 	<script src="{% static 'js/apps.min.js' %}"></script>
-	<!-- ================== END PAGE LEVEL JS ================== -->
 
 	<script>
 		$(document).ready(function() {
@@ -269,15 +262,7 @@
 		});
 	</script>
     {% endblock scripts %}
-{#	<script>#}
-{#      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){#}
-{#      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),#}
-{#      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)#}
-{#      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');#}
-{##}
-{#      ga('create', 'UA-53034621-1', 'auto');#}
-{#      ga('send', 'pageview');#}
-{#    </script>#}
+    <!-- ================== END PAGE LEVEL JS ================== -->
 </body>
 </html>
 

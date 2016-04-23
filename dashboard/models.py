@@ -26,7 +26,7 @@ class Vehicle(models.Model):
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
 
     def __unicode__(self):
-        return self.vehicle_make
+        return self.vehicle_make + self.customer.name
 
 
 class Payment(models.Model):
