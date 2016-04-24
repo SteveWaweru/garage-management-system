@@ -57,16 +57,16 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for vehicle in vehicles %}
+                            {% for payment in payments %}
                                 <tr class="odd gradeX">
-                                    <td>{{ vehicle.customer.name }}</td>
-                                    <td>{{ vehicle.vehicle_make }}</td>
-                                    <td>{{ vehicle.vehicle_type }}</td>
-                                    <td>{{ vehicle.vehicle_registration_number|upper }}</td>
-                                    <td>{{ vehicle.vehicle_chasis_number }}</td>
-                                    <td>{{ vehicle.installation_date }}</td>
-                                    <td>{{ vehicle.expiry_date }}</td>
-                                    <td></td>
+                                    <td>{{ payment.customer.name }}</td>
+                                    <td>{{ payment.name_payer }}</td>
+                                    <td>{{ payment.bank }}</td>
+                                    <td>{{ payment.account_name }}</td>
+                                    <td>{{ payment.amount }}</td>
+                                    <td>{{ payment.amount_due }}</td>
+                                    <td>{{ payment.payment_status }}</td>
+                                    <td>{{ payment.updated }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>
