@@ -1,5 +1,6 @@
 {% extends 'paymentsys/base.html' %}
 {% load staticfiles %}
+{% load humanize %}
 
 {% block style %}
     <link href="{% static 'plugins/DataTables/media/css/dataTables.bootstrap.min.css' %}" rel="stylesheet"/>
@@ -47,11 +48,12 @@
                             <thead>
                             <tr>
                                 <th>Client</th>
-                                <th>Payment Mode</th>
                                 <th>Name of Payer</th>
-                                <th>Account Name</th>
+                                <th>Payment Mode</th>
                                 <th>Bank</th>
+                                <th>Account Name</th>
                                 <th>Amount</th>
+                                <th>Amount due</th>
                                 <th>Payment Status</th>
                                 <th>Date of Payment</th>
                             </tr>
@@ -59,12 +61,13 @@
                             <tbody>
                             {% for payment in payments %}
                                 <tr class="odd gradeX">
-                                    <td>{{ payment.customer.name }}</td>
+                                    <td>{{ payment.customer.name|title }}</td>
                                     <td>{{ payment.name_payer }}</td>
-                                    <td>{{ payment.bank }}</td>
+                                    <td>{{ payment.mode_of_payment }}</td>
+                                    <td>{{ payment.bank|title }}</td>
                                     <td>{{ payment.account_name }}</td>
-                                    <td>{{ payment.amount }}</td>
-                                    <td>{{ payment.amount_due }}</td>
+                                    <td>{{ payment.amount|intcomma }}</td>
+                                    <td>{{ payment.amount_due|intcomma }}</td>
                                     <td>{{ payment.payment_status }}</td>
                                     <td>{{ payment.updated }}</td>
                                 </tr>

@@ -1,5 +1,6 @@
 {% extends 'paymentsys/base.html' %}
 {% load staticfiles %}
+{% load humanize %}
 
 
 {% block content %}
@@ -105,31 +106,38 @@
                     <div class="col-md-6">
                         <h4 class="title">Transactions</h4>
                         <!-- begin scrollbar -->
-                        <div class="bg-silver">
+                        <div class="bg-silver table-responsive">
                             <!-- begin table -->
                             <table class="table table-condensed">
                                 <thead>
                                 <tr>
-                                    <th>Product</th>
+                                    <th>Client</th>
+                                    <th>Name of Payer</th>
+                                    <th>Payment Mode</th>
+                                    <th>Bank</th>
+                                    <th>Account Name</th>
                                     <th>Amount</th>
-                                    <th>Date</th>
+                                    <th>Amount due</th>
+                                    <th>Payment Status</th>
+                                    <th>Date of Payment</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>
-                                        <h5 class="m-t-0 m-b-5">iPad Air 3</h5>
-                                    </td>
-                                    <td>$349.00</td>
-                                    <td>13/02/2013</td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <h5 class="m-t-0 m-b-5">Iphone6</h5>
-                                    </td>
-                                    <td>$399.00</td>
-                                    <td>13/02/2013</td>
-                                </tr>
+                                {% for payment in customer.payment_set.all %}
+                                    <tr>
+                                        <td>
+                                            <h5 class="m-t-0 m-b-5">{{ payment.customer.name|title }}</h5>
+                                        </td>
+                                        <td>{{ payment.name_payer }}</td>
+                                        <td>{{ payment.mode_of_payment }}</td>
+                                        <td>{{ payment.bank|title }}</td>
+                                        <td>{{ payment.account_name }}</td>
+                                        <td>{{ payment.amount|intcomma }}</td>
+                                        <td>{{ payment.amount_due|intcomma }}</td>
+                                        <td>{{ payment.payment_status }}</td>
+                                        <td>{{ payment.updated }}</td>
+                                    </tr>
+                                {% endfor %}
                                 </tbody>
                             </table>
                             <!-- end table -->
