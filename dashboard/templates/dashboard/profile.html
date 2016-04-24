@@ -1,0 +1,160 @@
+{% extends 'paymentsys/base.html' %}
+{% load staticfiles %}
+
+
+{% block content %}
+    <!-- begin #content -->
+    <div id="content" class="content">
+        <!-- begin breadcrumb -->
+        <ol class="breadcrumb pull-right">
+            <li><a href="javascript:;">Home</a></li>
+            <li class="active">Client Profile</li>
+        </ol>
+        <!-- end breadcrumb -->
+        <!-- begin page-header -->
+        <h1 class="page-header">Profile Page
+            <small>header small text goes here...</small>
+        </h1>
+        <!-- end page-header -->
+        <!-- begin profile-container -->
+        <div class="profile-container">
+            <!-- begin profile-section -->
+            <div class="profile-section">
+                <!-- begin profile-right -->
+                <div class="profile-right">
+                    <!-- begin profile-info -->
+                    <div class="profile-info">
+                        <!-- begin table -->
+                        <div class="table-responsive">
+                            <table class="table table-profile">
+                                <thead>
+                                <tr>
+                                    <th colspan="2">
+                                        <h3>{{ customer.name|upper }}</h3>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td class="field">Mobile</td>
+                                    <td><i class="fa fa-mobile fa-lg m-r-5"></i>{{ customer.phone_number }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="field">Email</td>
+                                    <td><i class="fa fa-envelope-o fa-lg m-r-5"></i>{{ customer.email }}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- end table -->
+                    </div>
+                    <!-- end profile-info -->
+                </div>
+                <!-- end profile-right -->
+            </div>
+            <!-- end profile-section -->
+            <!-- begin profile-section -->
+            <div class="profile-section">
+                <!-- begin row -->
+                <div class="row">
+                    <!-- begin col-4 -->
+                    <div class="col-md-6">
+                        <h4 class="title">Vehicles</h4>
+                        <!-- begin scrollbar -->
+                        {% if customer.vehicle_set.all.count == 0 %}
+                            <div class="alert alert-info fade in m-b-15">
+                                No vehicles registered to this client.
+                            </div>
+                        {% else %}
+                            <div class="bg-silver">
+                                <!-- begin table -->
+                                <table class="table table-condensed">
+                                    <thead>
+                                    <tr>
+                                        <th>Registration</th>
+                                        <th>Make</th>
+                                        <th>Type</th>
+                                        <th>Chassis Number</th>
+                                        <th>Installation Date</th>
+                                        <th>Expiry Date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for vehicle in customer.vehicle_set.all %}
+                                        <tr>
+                                            <td>
+                                                <h5 class="m-t-0 m-b-5">{{ vehicle.vehicle_registration_number|upper }}</h5>
+                                            </td>
+                                            <td>{{ vehicle.vehicle_make }}</td>
+                                            <td>{{ vehicle.vehicle_type }}</td>
+                                            <td>{{ vehicle.vehicle_chasis_number }}</td>
+                                            <td>{{ vehicle.installation_date }}</td>
+                                            <td>{{ vehicle.expiry_date }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                                <!-- end table -->
+                            </div>
+                            <!-- end scrollbar -->
+                        {% endif %}
+
+                    </div>
+                    <!-- end col-4 -->
+                    <!-- begin col-4 -->
+                    <div class="col-md-6">
+                        <h4 class="title">Transactions</h4>
+                        <!-- begin scrollbar -->
+                        <div class="bg-silver">
+                            <!-- begin table -->
+                            <table class="table table-condensed">
+                                <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <h5 class="m-t-0 m-b-5">iPad Air 3</h5>
+                                    </td>
+                                    <td>$349.00</td>
+                                    <td>13/02/2013</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h5 class="m-t-0 m-b-5">Iphone6</h5>
+                                    </td>
+                                    <td>$399.00</td>
+                                    <td>13/02/2013</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <!-- end table -->
+                        </div>
+                        <!-- end scrollbar -->
+                    </div>
+                    <!-- end col-4 -->
+                </div>
+                <!-- end row -->
+            </div>
+            <!-- end profile-section -->
+        </div>
+        <!-- end profile-container -->
+    </div>
+    <!-- end #content -->
+{% endblock %}
+
+{% block scripts %}
+    <!-- ================== BEGIN PAGE LEVEL JS ================== -->
+    <script src="{% static 'js/apps.min.js' %}"></script>
+    <!-- ================== END PAGE LEVEL JS ================== -->
+
+    <script>
+        $(document).ready(function () {
+            App.init();
+        });
+    </script>
+{% endblock %}
