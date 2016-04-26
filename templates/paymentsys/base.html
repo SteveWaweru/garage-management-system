@@ -187,7 +187,16 @@
 					    </a>
 						<ul class="sub-menu">
                             <li><a href="{% url 'payments' %}">Sales</a></li>
-						    <li><a href="{% url 'invoices' %}">Invoices</a></li>
+                            <li class="has-sub active">
+                                <a href="{% url 'invoices' %}">
+                                    <b class="caret pull-right"></b>
+                                    Invoices
+                                </a>
+                                <ul class="sub-menu">
+                                    <li><a href="{% url 'invoices' %}">View</a></li>
+                                    <li><a href="{% url 'add-invoice' %}">Create</a></li>
+                                </ul>
+                            </li>
 						    <li><a href="">Receipts</a></li>
                             <li><a href="">Unfinished Payments</a></li>
 						</ul>
