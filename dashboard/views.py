@@ -3,7 +3,7 @@ from __future__ import print_function
 from django.db import IntegrityError
 from django.shortcuts import render
 from django.contrib import messages
-from .models import Customer, Vehicle, Payment
+from .models import Customer, Vehicle, Payment, Invoice
 from .forms import CustomerForm
 
 
@@ -46,3 +46,8 @@ def payments(request):
 def customer_profile(request, client_id):
     customer = Customer.objects.get(id=client_id)
     return render(request, 'dashboard/profile.html', {'customer': customer})
+
+
+def invoices(request):
+    invoices = Invoice.objects.all()
+    return render(request, 'dashboard/invoices.html', {'invoices': invoices})

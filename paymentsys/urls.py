@@ -24,5 +24,6 @@ urlpatterns = [
     url(r'^customer/edit/(?P<client_id>[0-9]+)', views.edit_customer, name='edit-customer'),
     url(r'^customer/profile/(?P<client_id>[0-9]+)', views.customer_profile, name='profile-customer'),
     url(r'^vehicles/', views.vehicles, name='vehicles'),
-    url(r'^payments/', views.payments, name='payments'),
+    url(r'^transactions/payments/', views.payments, name='payments'),
+    url(r'^transactions/invoices/', views.invoices, name='invoices'),
 ]
