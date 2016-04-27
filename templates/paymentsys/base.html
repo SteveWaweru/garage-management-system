@@ -175,9 +175,17 @@
 						    <span>CUSTOMERS</span>
 					    </a>
 						<ul class="sub-menu">
-                            <li><a href="{% url 'home' %}">Clients</a></li>
+                            <li class="has-sub active">
+                                <a href="{% url 'home' %}">
+                                    <b class="caret pull-right"></b>
+                                    Clients
+                                </a>
+                                <ul class="sub-menu">
+                                    <li><a href="{% url 'home' %}">View</a></li>
+                                    <li><a href="{% url 'add-customer' %}">Add Client</a></li>
+                                </ul>
+                            </li>
                             <li><a href="{% url 'vehicles' %}">Vehicles</a></li>
-						    <li><a href="{% url 'add-customer' %}">Add Client</a></li>
 						</ul>
 					</li>
                     <li class="has-sub active">
@@ -186,7 +194,6 @@
 						    <span>TRANSACTIONS</span>
 					    </a>
 						<ul class="sub-menu">
-                            <li><a href="{% url 'payments' %}">Sales</a></li>
                             <li class="has-sub active">
                                 <a href="{% url 'invoices' %}">
                                     <b class="caret pull-right"></b>
@@ -197,6 +204,7 @@
                                     <li><a href="{% url 'add-invoice' %}">Create</a></li>
                                 </ul>
                             </li>
+                            <li><a href="{% url 'payments' %}">Sales</a></li>
 						    <li><a href="">Receipts</a></li>
                             <li><a href="">Unfinished Payments</a></li>
 						</ul>

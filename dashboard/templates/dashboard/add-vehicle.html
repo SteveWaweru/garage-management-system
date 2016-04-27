@@ -1,0 +1,147 @@
+{% extends 'paymentsys/base.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block style %}
+    <link href="{% static 'plugins/bootstrap-datepicker/css/datepicker.css' %}" rel="stylesheet"/>
+    <link href="{% static 'plugins/bootstrap-datepicker/css/datepicker3.css' %}" rel="stylesheet"/>
+    <link href="{% static 'plugins/bootstrap-eonasdan-datetimepicker/build/css/bootstrap-datetimepicker.min.css' %}"
+          rel="stylesheet"/>
+    <link href="{% static 'plugins/parsley/src/parsley.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+    <!-- begin #content -->
+    <div id="content" class="content">
+        <!-- begin breadcrumb -->
+        <ol class="breadcrumb pull-right">
+            <li><a href="javascript:;">Home</a></li>
+            <li><a href="javascript:;">Vehicles</a></li>
+            <li class="active">Add</li>
+        </ol>
+        <!-- end breadcrumb -->
+        <!-- begin page-header -->
+        <h1 class="page-header">Add Vehicle
+            <small>Add New Vehicle</small>
+        </h1>
+        <!-- end page-header -->
+        <!-- begin row -->
+        <div class="row">
+            <!-- begin col-6 -->
+            <div class="col-md-12">
+                <!-- begin panel -->
+                <div class="panel panel-inverse" data-sortable-id="form-validation-1">
+                    <div class="panel-heading">
+                        <div class="panel-heading-btn">
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default"
+                               data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success"
+                               data-click="panel-reload"><i class="fa fa-repeat"></i></a>
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning"
+                               data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger"
+                               data-click="panel-remove"><i class="fa fa-times"></i></a>
+                        </div>
+                        <h4 class="panel-title">Add New Vehicle Form</h4>
+                    </div>
+                    {% if message %}
+                        <div class="alert alert-danger fade in">
+                            <span class="close" data-dismiss="alert">×</span>
+                            <i class="fa fa-times fa-2x pull-left"></i>
+                            <p>The form could not be submitted. It seems to be invalid</p>
+                        </div>
+                    {% endif %}
+                    <div class="panel-body panel-form">
+                        <form class="form-horizontal form-bordered" data-parsley-validate="true" name="demo-form"
+                              method="post" action="{% url 'add-vehicle' client_id %}">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4" for="vehicle_make">Vehicle Make :</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" type="text" name="vehicle_make" id="vehicle_make"
+                                           placeholder="Vehicle Make"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4" for="vehicle_type">Vehicle Type :</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" type="text" name="vehicle_type" id="vehicle_type"
+                                           placeholder="Vehicle Type"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4" for="vehicle_registration_number">Registration
+                                    Number * :</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" type="text" data-parsley-required="true"
+                                           name="vehicle_registration_number" id="vehicle_registration_number"
+                                           placeholder="Vehicle Registration Number"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4" for="vehicle_chasis_number">Chassis
+                                    Number :</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" type="number" data-parsley-type="digits"
+                                           name="vehicle_chasis_number" id="vehicle_chasis_number"
+                                           placeholder="Vehicle Chassis Number"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4" for="datepicker-autoClose">Installation
+                                    Date :</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" type="text" name="installation_date"
+                                           id="datepicker-autoClose"
+                                           placeholder="Installation Date"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4" for="datepicker-autoClose2">Expiry Date
+                                    :</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" type="text" name="expiry_date" id="datepicker-autoClose2"
+                                           placeholder="Expiry Date"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4"></label>
+                                <div class="col-md-6 col-sm-6">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- end panel -->
+            </div>
+            <!-- end col-6 -->
+        </div>
+        <!-- end row -->
+    </div>
+{% endblock content %}
+
+{% block scripts %}
+    <script src="{% static 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-daterangepicker/moment.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-eonasdan-datetimepicker/build/js/bootstrap-datetimepicker.min.js' %}"></script>
+{#    <script src="{% static 'js/form-plugins.demo.min.js' %}"></script>#}
+    <script src="{% static 'plugins/parsley/dist/parsley.js' %}"></script>
+    <script src="{% static 'js/apps.min.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            App.init();
+            $("#datepicker-autoClose").datepicker({
+                format: "yyyy-mm-dd",
+                todayHighlight: !0,
+                autoclose: !0
+            });
+            $("#datepicker-autoClose2").datepicker({
+                format: "yyyy-mm-dd",
+                todayHighlight: !0,
+                autoclose: !0
+            });
+        });
+    </script>
+{% endblock %}

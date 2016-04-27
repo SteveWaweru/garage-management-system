@@ -3,7 +3,7 @@ from __future__ import print_function
 from django.db import IntegrityError
 from django.shortcuts import render
 from django.contrib import messages
-from .models import Customer, Vehicle, Payment, Invoice
+from .models import Customer, Vehicle, Payment, Invoice, PAYMENT_MODE
 from .forms import CustomerForm, InvoiceForm
 
 
@@ -65,3 +65,46 @@ def add_invoice(request):
             return render(request, 'dashboard/create-invoice.html', {'message': 'error'})
         return render(request, 'dashboard/invoices.html', {'message': 'success', 'invoices': Invoice.objects.all()})
     return render(request, 'dashboard/create-invoice.html', {'vehicles': vehicles})
+
+
+def add_payment(request, client_id):
+    customer = Customer.objects.get(id=client_id)
+
+    if request.method == 'POST':
+        try:
+            Payment.objects.create(
+                customer=customer,
+                mode_of_payment=request.POST['mode_of_payment'],
+                name_payer=request.POST['name_payer'],
+                account_name=request.POST['account_name'],
+                bank=request.POST['bank'],
+                installation_date=request.POST['installation_date'],
+                expiry_date=request.POST['expiry_date']
+            )
+        except IntegrityError as e:
+            return render(request, 'dashboard/add-payment.html', {'message': 'error'})
+        return render(request, 'dashboard/profile.html', {'message': 'success', 'customer': customer})
+    else:
+        return render(request, 'dashboard/add-payment.html', {'payment_mode': PAYMENT_MODE})
+
+
+def add_vehicle(request, client_id):
+    customer = Customer.objects.get(id=client_id)
+
+    if request.method == 'POST':
+        try:
+            Vehicle.objects.create(
+                customer=customer,
+                vehicle_make=request.POST['vehicle_make'],
+                vehicle_type=request.POST['vehicle_type'],
+                vehicle_registration_number=request.POST['vehicle_registration_number'],
+                vehicle_chasis_number=request.POST['vehicle_chasis_number'],
+                installation_date=request.POST['installation_date'],
+                expiry_date=request.POST['expiry_date']
+            )
+        except IntegrityError as e:
+            print(e)
+            return render(request, 'dashboard/add-vehicle.html', {'message': 'error', 'client_id': client_id})
+        return render(request, 'dashboard/profile.html', {'message': 'success', 'customer': customer})
+    else:
+        return render(request, 'dashboard/add-vehicle.html', {'client_id': client_id})

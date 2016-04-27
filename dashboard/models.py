@@ -9,6 +9,7 @@ PAYMENT_MODE =(
         ('RTGS', 'RTGS'),
     )
 
+
 class Customer(models.Model):
     name = models.CharField(max_length=20, blank=False, null=False)
     email = models.EmailField(blank=True, null=True, unique=True)
@@ -25,9 +26,9 @@ class Vehicle(models.Model):
     vehicle_make = models.CharField(max_length=20)
     vehicle_type = models.CharField(max_length=20, blank=True, null=True)
     vehicle_registration_number = models.CharField(max_length=20, blank=False, null=False, unique=True)
-    vehicle_chasis_number = models.CharField(max_length=20, blank=True, null=True, unique=True)
-    installation_date = models.DateTimeField()
-    expiry_date = models.DateTimeField()
+    vehicle_chasis_number = models.CharField(max_length=20, blank=True, null=True)
+    installation_date = models.DateField()
+    expiry_date = models.DateField()
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
 
