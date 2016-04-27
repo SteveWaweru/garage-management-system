@@ -63,6 +63,7 @@
                                 <th>Description</th>
                                 <th>Amount</th>
                                 <th>Date Created</th>
+                                <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -73,6 +74,7 @@
                                     <td>{{ invoice.description }}</td>
                                     <td>{{ invoice.amount|intcomma}}</td>
                                     <td>{{ invoice.updated }}</td>
+                                    <td><a class="btn btn-info btn-icon" href="{% url 'pay-invoice' invoice.id %}"><i class="fa fa-money"></i></a></td>
                                 </tr>
                             {% endfor %}
                             </tbody>

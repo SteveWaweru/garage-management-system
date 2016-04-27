@@ -108,3 +108,24 @@ def add_vehicle(request, client_id):
         return render(request, 'dashboard/profile.html', {'message': 'success', 'customer': customer})
     else:
         return render(request, 'dashboard/add-vehicle.html', {'client_id': client_id})
+
+
+def pay_invoice(request, invoice_id):
+    invoice = Invoice.objects.get(id=invoice_id)
+    customer = invoice.vehicle.customer
+    context = {'invoice': invoice, 'payment_mode': PAYMENT_MODE}
+    if request.method == 'POST':
+        try:
+            Payment.objects.create(
+                customer=customer,
+                mode_of_payment=request.POST['mode_of_payment'],
+                name_payer=request.POST['name_payer'],
+                account_name=request.POST['account_name'],
+                bank=request.POST['bank'],
+                amount=request.POST['amount']
+            )
+        except IntegrityError as e:
+            return render(request, 'dashboard/pay-invoice.html', context.update({'message': 'error'}))
+        return render(request, 'dashboard/profile.html', {'message': 'success', 'customer': customer})
+    else:
+        return render(request, 'dashboard/pay-invoice.html', context)

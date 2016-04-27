@@ -1,0 +1,111 @@
+{% extends 'paymentsys/base.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block style %}
+    <link href="{% static 'plugins/parsley/src/parsley.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+    <!-- begin #content -->
+    <div id="content" class="content">
+        <!-- begin breadcrumb -->
+        <ol class="breadcrumb pull-right">
+            <li><a href="javascript:;">Home</a></li>
+            <li><a href="javascript:;">Transactions</a></li>
+            <li class="active">Payment</li>
+        </ol>
+        <!-- end breadcrumb -->
+        <!-- begin page-header -->
+        <h1 class="page-header">Make Payment
+            <small>Making payment for vehicle</small>
+        </h1>
+        <!-- end page-header -->
+        <!-- begin invoice -->
+        <div class="invoice">
+            <div class="invoice-content">
+                <div class="invoice-price">
+                    <div class="invoice-price-left">
+                        <div class="invoice-price-row">
+                            <div class="sub-price">
+                                {{ invoice.vehicle.customer.name|upper }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="invoice-price-right">
+                        <small>DUE</small>
+                        Ksh. {{ invoice.amount|intcomma }}
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <form class="form-horizontal form-bordered" data-parsley-validate="true"
+                          name="demo-form"
+                          method="post" action="{% url 'pay-invoice' invoice.id %}">
+                        {% csrf_token %}
+                        <fieldset>
+                            <legend>MAKE PAYMENT</legend>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4" for="mode_of_payment">Mode of Payment * :</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <select class="form-control" name="mode_of_payment" id="mode_of_payment" data-parsley-required="true">
+                                            <option value="">-----------------</option>
+                                        {% for m, n in payment_mode %}
+                                            <option value="{{ m }}">{{ n }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4" for="name_payer">Name of Payer :</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" type="text" name="name_payer" id="name_payer"
+                                           placeholder="Name of Payer"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4" for="account_name">Account Name :</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" type="text" name="account_name" id="account_name"
+                                           placeholder="Account Name"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4" for="bank">Bank :</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" type="text" name="bank" id="bank"
+                                           placeholder="Bank Name"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4" for="amount">Amount * :</label>
+                                <div class="col-md-6 col-sm-6">
+                                    <input class="form-control" data-parsley-required="true" data-parsley-type="digits" type="text" name="amount" id="amount"
+                                           placeholder="Amount"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-4 col-sm-4"></label>
+                                <div class="col-md-6 col-sm-6">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- end invoice -->
+    </div>
+{% endblock content %}
+
+{% block scripts %}
+    <script src="{% static 'plugins/parsley/dist/parsley.js' %}"></script>
+    <script src="{% static 'js/apps.min.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            App.init();
+        });
+    </script>
+{% endblock %}
