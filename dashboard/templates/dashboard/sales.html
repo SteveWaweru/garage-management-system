@@ -54,7 +54,6 @@
                                 <th>Account Name</th>
                                 <th>Amount</th>
                                 <th>Amount due</th>
-                                <th>Payment Status</th>
                                 <th>Date of Payment</th>
                             </tr>
                             </thead>
@@ -67,8 +66,7 @@
                                     <td>{{ payment.bank|title }}</td>
                                     <td>{{ payment.account_name }}</td>
                                     <td>{{ payment.amount|intcomma }}</td>
-                                    <td>{{ payment.amount_due|intcomma }}</td>
-                                    <td>{{ payment.payment_status }}</td>
+                                    <td>{{ payment.customer.account.amount_due|intcomma }}</td>
                                     <td>{{ payment.updated }}</td>
                                 </tr>
                             {% endfor %}

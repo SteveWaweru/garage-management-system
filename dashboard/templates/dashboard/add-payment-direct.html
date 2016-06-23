@@ -1,7 +1,6 @@
 {% extends 'paymentsys/base.html' %}
 {% load staticfiles %}
 {% load crispy_forms_tags %}
-{% load humanize %}
 
 {% block style %}
     <link href="{% static 'plugins/parsley/src/parsley.css' %}" rel="stylesheet"/>
@@ -13,55 +12,61 @@
         <!-- begin breadcrumb -->
         <ol class="breadcrumb pull-right">
             <li><a href="javascript:;">Home</a></li>
-            <li><a href="javascript:;">Transactions</a></li>
+            <li><a href="javascript:;">Client</a></li>
             <li class="active">Payment</li>
         </ol>
         <!-- end breadcrumb -->
         <!-- begin page-header -->
         <h1 class="page-header">Make Payment
-            <small>Making payment for vehicle</small>
+            <small>Transaction</small>
         </h1>
         <!-- end page-header -->
-        <!-- begin invoice -->
-        <div class="invoice">
-            <div class="invoice-content">
-                <div class="invoice-price m-b-20">
-                    <div class="invoice-price-left">
-                        <div class="invoice-price-row">
-                            <div class="sub-price">
-                                <small>{{ invoice.vehicle.customer.name|upper }}</small>
-                                {{ vehicle.vehicle_registration_number }}
-                            </div>
+        <!-- begin row -->
+        <div class="row">
+            <!-- begin col-6 -->
+            <div class="col-md-12">
+                <!-- begin panel -->
+                <div class="panel panel-inverse" data-sortable-id="form-validation-1">
+                    <div class="panel-heading">
+                        <div class="panel-heading-btn">
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default"
+                               data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success"
+                               data-click="panel-reload"><i class="fa fa-repeat"></i></a>
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning"
+                               data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                            <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger"
+                               data-click="panel-remove"><i class="fa fa-times"></i></a>
                         </div>
+                        <h4 class="panel-title">Make Payment Form</h4>
                     </div>
-                    <div class="invoice-price-right">
-                        <small>DUE</small>
-                        Ksh. {{ invoice.amount|intcomma }}
-                    </div>
-                </div>
-                <div class="table-responsive">
-                    <form class="form-horizontal form-bordered" data-parsley-validate="true"
-                          name="demo-form"
-                          method="post" action="{% url 'pay-invoice' invoice.id %}">
-                        {% csrf_token %}
-                        <fieldset>
-                            <legend>MAKE PAYMENT</legend>
+                    {% if message %}
+                        <div class="alert alert-danger fade in">
+                            <span class="close" data-dismiss="alert">×</span>
+                            <i class="fa fa-check fa-2x pull-left"></i>
+                            <p>The Transaction could not be processed. Form invalid</p>
+                        </div>
+                    {% endif %}
+                    <div class="panel-body panel-form">
+                        <form class="form-horizontal form-bordered" data-parsley-validate="true" name="demo-form"
+                              method="post" action="{% url 'add-payment-direct' customer.id %}">
+                            {% csrf_token %}
                             <div class="form-group">
                                 <label class="control-label col-md-4 col-sm-4" for="mode_of_payment">Mode of Payment * :</label>
                                 <div class="col-md-6 col-sm-6">
                                     <select class="form-control" name="mode_of_payment" id="mode_of_payment" data-parsley-required="true">
                                             <option value="">-----------------</option>
-                                        {% for m, n in payment_mode %}
-                                            <option value="{{ m }}">{{ n }}</option>
+                                        {% for mode, value in payment_mode %}
+                                            <option value="{{ value }}">{{ mode }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4" for="name_payer">Name of Payer :</label>
+                                <label class="control-label col-md-4 col-sm-4" for="name_payer">Name of Payer * :</label>
                                 <div class="col-md-6 col-sm-6">
                                     <input class="form-control" type="text" name="name_payer" id="name_payer"
-                                           placeholder="Name of Payer"/>
+                                           placeholder="Name of Payer" data-parsley-required="true"/>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -79,25 +84,26 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-4 col-sm-4" for="amount">Amount * :</label>
+                                <label class="control-label col-md-4 col-sm-4" for="installation_date">Amount * :</label>
                                 <div class="col-md-6 col-sm-6">
-                                    <input class="form-control" data-parsley-required="true" data-parsley-type="digits" type="text" name="amount" id="amount"
-                                           placeholder="Amount"/>
+                                    <input class="form-control" type="number" name="amount" id="amount"
+                                           placeholder="Amount" data-parsley-required="true"/>
                                 </div>
                             </div>
-
                             <div class="form-group">
                                 <label class="control-label col-md-4 col-sm-4"></label>
                                 <div class="col-md-6 col-sm-6">
                                     <button type="submit" class="btn btn-primary">Submit</button>
                                 </div>
                             </div>
-                        </fieldset>
-                    </form>
+                        </form>
+                    </div>
                 </div>
+                <!-- end panel -->
             </div>
+            <!-- end col-6 -->
         </div>
-        <!-- end invoice -->
+        <!-- end row -->
     </div>
 {% endblock content %}
 

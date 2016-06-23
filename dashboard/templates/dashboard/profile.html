@@ -59,7 +59,7 @@
                 <!-- begin row -->
                 <div class="row">
                     <!-- begin col-4 -->
-                    <div class="col-md-6">
+                    <div class="col-lg-6">
                         <h4 class="title">Vehicles</h4>
                         <!-- begin scrollbar -->
                     {% if message %}
@@ -70,7 +70,7 @@
                         </div>
                     {% endif %}
                     <div class="m-b-10">
-                        <a href="{% url 'add-vehicle' customer.id %}" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> Add Vehicle</a>
+                        <a href="{% url 'add-vehicle' customer.id %}" class="btn btn-success btn-xs"><i class="fa fa-user"></i> Add Vehicle</a>
 {#                        <button type="button" class="btn btn-success"></button>#}
                     </div>
                         {% if customer.vehicle_set.all.count == 0 %}
@@ -78,7 +78,7 @@
                                 No vehicles registered to this client.
                             </div>
                         {% else %}
-                            <div class="bg-silver">
+                            <div class="bg-silver table-responsive">
                                 <!-- begin table -->
                                 <table class="table table-condensed">
                                     <thead>
@@ -114,15 +114,31 @@
                     </div>
                     <!-- end col-4 -->
                     <!-- begin col-4 -->
-                    <div class="col-md-6">
+                    <div class="col-lg-6">
                         <h4 class="title">Transactions</h4>
+                    {% if message_payment %}
+                        <div class="alert alert-success fade in">
+                            <span class="close" data-dismiss="alert">×</span>
+                            <i class="fa fa-check fa-2x pull-left"></i>
+                            <p>Payment has been successfully processed.</p>
+                        </div>
+                    {% endif %}
+                    <div class="m-b-10">
+                        <a href="{% url 'add-payment-direct' customer.id %}" class="btn btn-success btn-xs"><i class="fa fa-money"></i> Make Payment</a>
+{#                        <button type="button" class="btn btn-success"></button>#}
+                    </div>
+
+                    {% if customer.payment_set.all.count == 0 %}
+                        <div class="alert alert-info fade in m-b-15">
+                            No Transactions done for this client.
+                        </div>
+                        {% else %}
                         <!-- begin scrollbar -->
                         <div class="bg-silver table-responsive">
                             <!-- begin table -->
                             <table class="table table-condensed">
                                 <thead>
                                 <tr>
-                                    <th>Client</th>
                                     <th>Name of Payer</th>
                                     <th>Payment Mode</th>
                                     <th>Bank</th>
@@ -137,9 +153,8 @@
                                 {% for payment in customer.payment_set.all %}
                                     <tr>
                                         <td>
-                                            <h5 class="m-t-0 m-b-5">{{ payment.customer.name|title }}</h5>
+                                            <h5 class="m-t-0 m-b-5">{{ payment.name_payer|title }}</h5>
                                         </td>
-                                        <td>{{ payment.name_payer }}</td>
                                         <td>{{ payment.mode_of_payment }}</td>
                                         <td>{{ payment.bank|title }}</td>
                                         <td>{{ payment.account_name }}</td>
@@ -154,6 +169,7 @@
                             <!-- end table -->
                         </div>
                         <!-- end scrollbar -->
+                    {% endif %}
                     </div>
                     <!-- end col-4 -->
                 </div>

@@ -3,7 +3,7 @@ from __future__ import print_function
 from django.db import IntegrityError
 from django.shortcuts import render
 from django.contrib import messages
-from .models import Customer, Vehicle, Payment, Invoice, PAYMENT_MODE
+from .models import Customer, Vehicle, Payment, Invoice,Account, PAYMENT_MODE
 from .forms import CustomerForm, InvoiceForm
 
 
@@ -17,10 +17,11 @@ def add_customer(request):
     if request.method == "POST":
         try:
             Customer.objects.create(name=request.POST['name'], email=request.POST['email'],
-                                    phone_number=request.POST['phone_number'])
+                                    phone_number=request.POST['phone_number'], account=Account.objects.create())
         except IntegrityError as e:
             return render(request, 'dashboard/register.html', {'message': 'error'})
-        return render(request, 'dashboard/index.html', {'message': 'success'})
+        customers = Customer.objects.all()
+        return render(request, 'dashboard/index.html', {'message': 'success', 'customers': customers})
     return render(request, 'dashboard/register.html')
 
 
@@ -83,9 +84,33 @@ def add_payment(request, client_id):
             )
         except IntegrityError as e:
             return render(request, 'dashboard/add-payment.html', {'message': 'error'})
-        return render(request, 'dashboard/profile.html', {'message': 'success', 'customer': customer})
+        return render(request, 'dashboard/profile.html', {'message_payment': 'success'})
     else:
         return render(request, 'dashboard/add-payment.html', {'payment_mode': PAYMENT_MODE})
+
+
+def add_payment_direct(request, client_id):
+    customer = Customer.objects.get(id=client_id)
+    context = {'payment_mode': PAYMENT_MODE, 'customer': customer}
+
+    if request.method == 'POST':
+        try:
+            Payment.objects.create(
+                customer=customer,
+                mode_of_payment=request.POST['mode_of_payment'],
+                name_payer=request.POST['name_payer'],
+                account_name=request.POST['account_name'],
+                bank=request.POST['bank'],
+                amount=request.POST['amount']
+            )
+        except IntegrityError as e:
+            context.update({'message': 'error'})
+            return render(request, 'dashboard/add-payment-direct.html', context)
+        context.update({'message_payment': 'success'})
+        return render(request, 'dashboard/profile.html', context)
+
+    if request.method == 'GET':
+        return render(request, 'dashboard/add-payment-direct.html', context)
 
 
 def add_vehicle(request, client_id):
@@ -113,7 +138,7 @@ def add_vehicle(request, client_id):
 def pay_invoice(request, invoice_id):
     invoice = Invoice.objects.get(id=invoice_id)
     customer = invoice.vehicle.customer
-    context = {'invoice': invoice, 'payment_mode': PAYMENT_MODE}
+    context = {'invoice': invoice, 'payment_mode': PAYMENT_MODE, 'vehicle': invoice.vehicle}
     if request.method == 'POST':
         try:
             Payment.objects.create(
@@ -126,6 +151,7 @@ def pay_invoice(request, invoice_id):
             )
         except IntegrityError as e:
             return render(request, 'dashboard/pay-invoice.html', context.update({'message': 'error'}))
+
         return render(request, 'dashboard/profile.html', {'message': 'success', 'customer': customer})
     else:
         return render(request, 'dashboard/pay-invoice.html', context)
