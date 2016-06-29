@@ -64,6 +64,7 @@ def add_invoice(request):
                                    description=request.POST['description'])
         except IntegrityError as e:
             return render(request, 'dashboard/create-invoice.html', {'message': 'error'})
+        vehicle.customer.account.add_amount_due(amount=request.POST['amount'])
         return render(request, 'dashboard/invoices.html', {'message': 'success', 'invoices': Invoice.objects.all()})
     return render(request, 'dashboard/create-invoice.html', {'vehicles': vehicles})
 
@@ -106,6 +107,8 @@ def add_payment_direct(request, client_id):
         except IntegrityError as e:
             context.update({'message': 'error'})
             return render(request, 'dashboard/add-payment-direct.html', context)
+        customer.account.add_amount_paid(request.POST['amount'])
+        customer.account.subtract_amount_due(request.POST['amount'])
         context.update({'message_payment': 'success'})
         return render(request, 'dashboard/profile.html', context)
 
