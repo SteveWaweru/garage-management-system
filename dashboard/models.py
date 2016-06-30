@@ -61,7 +61,7 @@ class Vehicle(models.Model):
 class Payment(models.Model):
     customer = models.ForeignKey(Customer)
     mode_of_payment = models.CharField(max_length=20, choices=PAYMENT_MODE)
-    type = models.CharField(max_length=20, choices=(('DIRECT', 'DIRECT'), ('INVOICE', 'INVOICE')))
+    type = models.CharField(max_length=20, choices=(('DIRECT', 'DIRECT'), ('INVOICE', 'INVOICE')), default='DIRECT')
     name_payer = models.CharField(max_length=20, blank=True, null=True)
     account_name = models.CharField(max_length=20, blank=True, null=True)
     bank = models.CharField(max_length=20, blank=True, null=True)

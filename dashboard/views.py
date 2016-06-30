@@ -2,9 +2,7 @@ from __future__ import print_function
 
 from django.db import IntegrityError
 from django.shortcuts import render
-from django.contrib import messages
 from .models import Customer, Vehicle, Payment, Invoice,Account, PAYMENT_MODE
-from .forms import CustomerForm, InvoiceForm
 
 
 # Create your views here.
@@ -64,7 +62,8 @@ def add_invoice(request):
                                    description=request.POST['description'])
         except IntegrityError as e:
             return render(request, 'dashboard/create-invoice.html', {'message': 'error'})
-        vehicle.customer.account.add_amount_due(amount=request.POST['amount'])
+        vehicle.customer.account.add_amount_due(int(request.POST['amount']))
+        vehicle.customer.account.save()
         return render(request, 'dashboard/invoices.html', {'message': 'success', 'invoices': Invoice.objects.all()})
     return render(request, 'dashboard/create-invoice.html', {'vehicles': vehicles})
 
@@ -86,8 +85,9 @@ def add_payment_direct(request, client_id):
         except IntegrityError as e:
             context.update({'message': 'error'})
             return render(request, 'dashboard/add-payment-direct.html', context)
-        customer.account.add_amount_paid(request.POST['amount'])
-        customer.account.subtract_amount_due(request.POST['amount'])
+        customer.account.add_amount_paid(int(request.POST['amount']))
+        customer.account.subtract_amount_due(int(request.POST['amount']))
+        customer.account.save()
         context.update({'message_payment': 'success'})
         return render(request, 'dashboard/profile.html', context)
 
@@ -110,7 +110,6 @@ def add_vehicle(request, client_id):
                 expiry_date=request.POST['expiry_date']
             )
         except IntegrityError as e:
-            print(e)
             return render(request, 'dashboard/add-vehicle.html', {'message': 'error', 'client_id': client_id})
         return render(request, 'dashboard/profile.html', {'message': 'success', 'customer': customer})
     else:
@@ -129,11 +128,13 @@ def pay_invoice(request, invoice_id):
                 name_payer=request.POST['name_payer'],
                 account_name=request.POST['account_name'],
                 bank=request.POST['bank'],
-                amount=request.POST['amount']
+                amount=request.POST['amount'],
+                type='INVOICE',
             )
         except IntegrityError as e:
             return render(request, 'dashboard/pay-invoice.html', context.update({'message': 'error'}))
-        Customer.account.subtract_amount_due(request.POST['amount'])
+        Customer.account.subtract_amount_due(int(request.POST['amount']))
+        Customer.account.save()
         return render(request, 'dashboard/profile.html', {'message': 'success', 'customer': customer})
     else:
         return render(request, 'dashboard/pay-invoice.html', context)
