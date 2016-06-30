@@ -69,27 +69,6 @@ def add_invoice(request):
     return render(request, 'dashboard/create-invoice.html', {'vehicles': vehicles})
 
 
-def add_payment(request, client_id):
-    customer = Customer.objects.get(id=client_id)
-
-    if request.method == 'POST':
-        try:
-            Payment.objects.create(
-                customer=customer,
-                mode_of_payment=request.POST['mode_of_payment'],
-                name_payer=request.POST['name_payer'],
-                account_name=request.POST['account_name'],
-                bank=request.POST['bank'],
-                installation_date=request.POST['installation_date'],
-                expiry_date=request.POST['expiry_date']
-            )
-        except IntegrityError as e:
-            return render(request, 'dashboard/add-payment.html', {'message': 'error'})
-        return render(request, 'dashboard/profile.html', {'message_payment': 'success'})
-    else:
-        return render(request, 'dashboard/add-payment.html', {'payment_mode': PAYMENT_MODE})
-
-
 def add_payment_direct(request, client_id):
     customer = Customer.objects.get(id=client_id)
     context = {'payment_mode': PAYMENT_MODE, 'customer': customer}
@@ -154,7 +133,7 @@ def pay_invoice(request, invoice_id):
             )
         except IntegrityError as e:
             return render(request, 'dashboard/pay-invoice.html', context.update({'message': 'error'}))
-
+        Customer.account.subtract_amount_due(request.POST['amount'])
         return render(request, 'dashboard/profile.html', {'message': 'success', 'customer': customer})
     else:
         return render(request, 'dashboard/pay-invoice.html', context)

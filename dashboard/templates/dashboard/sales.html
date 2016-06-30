@@ -50,10 +50,10 @@
                                 <th>Client</th>
                                 <th>Name of Payer</th>
                                 <th>Payment Mode</th>
+                                <th>Payment Type</th>
                                 <th>Bank</th>
                                 <th>Account Name</th>
                                 <th>Amount</th>
-                                <th>Amount due</th>
                                 <th>Date of Payment</th>
                             </tr>
                             </thead>
@@ -63,10 +63,10 @@
                                     <td>{{ payment.customer.name|title }}</td>
                                     <td>{{ payment.name_payer }}</td>
                                     <td>{{ payment.mode_of_payment }}</td>
+                                    <td></td>
                                     <td>{{ payment.bank|title }}</td>
                                     <td>{{ payment.account_name }}</td>
                                     <td>{{ payment.amount|intcomma }}</td>
-                                    <td>{{ payment.customer.account.amount_due|intcomma }}</td>
                                     <td>{{ payment.updated }}</td>
                                 </tr>
                             {% endfor %}

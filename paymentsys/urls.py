@@ -25,7 +25,6 @@ urlpatterns = [
     url(r'^customer/profile/(?P<client_id>[0-9]+)/vehicles/add/$', views.add_vehicle, name='add-vehicle'),
     url(r'^customer/profile/(?P<client_id>[0-9]+)/$', views.customer_profile, name='profile-customer'),
     url(r'^vehicles/$', views.vehicles, name='vehicles'),
-    url(r'^transactions/payments/add/(?P<client_id>[0-9]+)', views.add_payment, name='add-payment'),
     url(r'^transactions/payments-direct/add/(?P<client_id>[0-9]+)/', views.add_payment_direct, name='add-payment-direct'),
     url(r'^transactions/payments/', views.payments, name='payments'),
     url(r'^transactions/invoices/$', views.invoices, name='invoices'),

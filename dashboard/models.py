@@ -61,12 +61,11 @@ class Vehicle(models.Model):
 class Payment(models.Model):
     customer = models.ForeignKey(Customer)
     mode_of_payment = models.CharField(max_length=20, choices=PAYMENT_MODE)
+    type = models.CharField(max_length=20, choices=(('DIRECT', 'DIRECT'), ('INVOICE', 'INVOICE')))
     name_payer = models.CharField(max_length=20, blank=True, null=True)
     account_name = models.CharField(max_length=20, blank=True, null=True)
     bank = models.CharField(max_length=20, blank=True, null=True)
     amount = models.IntegerField(blank=False, null=False)
-    # amount_due = models.IntegerField(blank=True, null=True)
-    # payment_status = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
 
