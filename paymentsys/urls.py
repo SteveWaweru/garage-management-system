@@ -30,5 +30,6 @@ urlpatterns = [
     url(r'^transactions/invoices/$', views.invoices, name='invoices'),
     url(r'^transactions/invoices/(?P<invoice_id>[0-9]+)/pay/$', views.pay_invoice, name='pay-invoice'),
     url(r'^transactions/invoices/add/', views.add_invoice, name='add-invoice'),
+    url(r'^transactions/invoices/(?P<invoice_id>[0-9]+)/view/$', views.view_invoice, name='view-invoice'),
 
 ]

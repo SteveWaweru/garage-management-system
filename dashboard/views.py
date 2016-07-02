@@ -138,3 +138,8 @@ def pay_invoice(request, invoice_id):
         return render(request, 'dashboard/profile.html', {'message': 'success', 'customer': customer})
     else:
         return render(request, 'dashboard/pay-invoice.html', context)
+
+
+def view_invoice(request, invoice_id):
+    invoice = Invoice.objects.get(id=invoice_id)
+    return render(request, 'dashboard/view-invoice.html', {'invoice': invoice})

@@ -1,0 +1,120 @@
+{% extends 'paymentsys/base.html' %}
+{% load staticfiles %}
+{% load humanize %}
+
+{% block style %}
+    <link href="{% static 'css/invoice-print.min.css' %}" rel="stylesheet"/>
+{% endblock style %}
+
+{% block content %}
+    <!-- begin #content -->
+    <div id="content" class="content">
+        <!-- begin breadcrumb -->
+        <ol class="breadcrumb hidden-print pull-right">
+            <li><a href="javascript:;">Home</a></li>
+            <li><a href="javascript:;">Invoice</a></li>
+            <li class="active">View</li>
+        </ol>
+        <!-- end breadcrumb -->
+        <!-- begin page-header -->
+        <h1 class="page-header hidden-print">Invoice View</h1>
+        <!-- end page-header -->
+
+        <!-- begin invoice -->
+        <div class="invoice">
+            <div class="invoice-company">
+                    <span class="pull-right hidden-print">
+{#                    <a href="javascript:;" class="btn btn-sm btn-success m-b-10"><i class="fa fa-download m-r-5"></i> Export as PDF</a>#}
+                    <a href="javascript:;" onclick="window.print()" class="btn btn-sm btn-success m-b-10"><i
+                            class="fa fa-print m-r-5"></i> Print</a>
+                    </span>
+                PMS, LTD
+            </div>
+            <div class="invoice-header">
+                <div class="invoice-from">
+                    <small>from</small>
+                    <address class="m-t-5 m-b-5">
+                        <strong>PMS, Ltd</strong><br/>
+                        P.O. Box. 112233,<br/>
+                        Nairobi, kenya<br/>
+                        Phone: (+254) 722 123 456
+                    </address>
+                </div>
+                <div class="invoice-to">
+                    <small>to</small>
+                    <address class="m-t-5 m-b-5">
+                        <strong>{{ invoice.vehicle.customer.name }}</strong><br/>
+                        {{ invoice.vehicle.customer.email }}<br/>
+                        Phone: {{ invoice.vehicle.customer.phone_number }}
+                    </address>
+                </div>
+                <div class="invoice-date">
+                    <div class="date m-t-5">{{ invoice.updated | date }}</div>
+                    <div class="invoice-detail">
+                        #{{ invoice.id }}<br/>
+                        <span class="page-header">{{ invoice.vehicle.vehicle_registration_number }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="invoice-content">
+                <div class="table-responsive">
+                    <table class="table table-invoice">
+                        <thead>
+                        <tr>
+                            <th>DESCRIPTION</th>
+                            <td></td>
+                            <td></td>
+                            <th>TOTAL</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                {{ invoice.description }}
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td>Ksh. {{ invoice.amount | intcomma }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="invoice-price">
+                    <div class="invoice-price-left">
+                    </div>
+                    <div class="invoice-price-right">
+                        <small>TOTAL</small>
+                        Ksh. {{ invoice.amount | intcomma }}
+                    </div>
+                </div>
+            </div>
+            <div class="invoice-note">
+                * Make all cheques payable to [Your Company Name]<br/>
+                * Payment is due within 30 days<br/>
+                * If you have any questions concerning this invoice, contact [Name, Phone Number, Email]
+            </div>
+            <div class="invoice-footer text-muted">
+                <p class="text-center m-b-5">
+                    THANK YOU FOR YOUR BUSINESS
+                </p>
+                <p class="text-center">
+                    <span class="m-r-10"><i class="fa fa-globe"></i> pms.com</span>
+                    <span class="m-r-10"><i class="fa fa-phone"></i> T:0721 123456</span>
+                    <span class="m-r-10"><i class="fa fa-envelope"></i> pms@gmail.com</span>
+                </p>
+            </div>
+        </div>
+        <!-- end invoice -->
+    </div>
+    <!-- end #content -->
+{% endblock content %}
+
+{% block scripts %}
+
+    <script src="{% static 'js/apps.min.js' %}"></script>
+    <script>
+        $(document).ready(function () {
+            App.init();
+        });
+    </script>
+{% endblock scripts %}
