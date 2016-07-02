@@ -8,7 +8,7 @@ from .models import Customer, Vehicle, Payment, Invoice,Account, PAYMENT_MODE
 # Create your views here.
 def home(request):
     customers = Customer.objects.all()
-    return render(request, 'dashboard/index.html', {'customers': customers})
+    return render(request, 'dashboard/customers.html', {'customers': customers})
 
 
 def add_customer(request):
@@ -19,7 +19,7 @@ def add_customer(request):
         except IntegrityError as e:
             return render(request, 'dashboard/register.html', {'message': 'error'})
         customers = Customer.objects.all()
-        return render(request, 'dashboard/index.html', {'message': 'success', 'customers': customers})
+        return render(request, 'dashboard/customers.html', {'message': 'success', 'customers': customers})
     return render(request, 'dashboard/register.html')
 
 
