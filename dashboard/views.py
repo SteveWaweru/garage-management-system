@@ -133,8 +133,8 @@ def pay_invoice(request, invoice_id):
             )
         except IntegrityError as e:
             return render(request, 'dashboard/pay-invoice.html', context.update({'message': 'error'}))
-        Customer.account.subtract_amount_due(int(request.POST['amount']))
-        Customer.account.save()
+        customer.account.subtract_amount_due(int(request.POST['amount']))
+        customer.account.save()
         return render(request, 'dashboard/profile.html', {'message': 'success', 'customer': customer})
     else:
         return render(request, 'dashboard/pay-invoice.html', context)
